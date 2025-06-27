@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Traffic Volume Estimation</title>
+<style>
+    .prediction-box {
+        margin: 20px auto;
+        width: 50%;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: rgba(223, 240, 216, 0.95); /* light green with transparency */
+        color: #3c763d; /* dark green */
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid #d6e9c6;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='traffic_bg.jpeg') }}'); background-size: cover;">
+<div class="login">
+    <center><h1>Traffic Volume Estimation</h1></center>
+    <form action="{{ url_for('predict') }}" method="post">
+        <h1>Please enter the following details</h1>
+
+        <label for="holiday">Holiday:</label>
+        <select id="holiday" name="holiday">
+            <option value="7">None</option>
+            <option value="1">Columbus Day</option>
+            <option value="10">Veterans Day</option>
+            <option value="9">Thanksgiving Day</option>
+            <option value="0">Christmas Day</option>
+            <option value="6">New Year's Day</option>
+            <option value="11">Washington's Birthday</option>
+            <option value="5">Memorial Day</option>
+            <option value="2">Independence Day</option>
+            <option value="8">State Fair</option>
+            <option value="3">Labor Day</option>
+            <option value="4">Martin Luther King Jr Day</option>
+        </select><br><br>
+
+        <label>Temp:</label>
+        <input type="number" name="temp" step="any" placeholder="temp" required="required"><br><br>
+
+        <label>Rain:</label>
+        <input type="number" name="rain" step="any" placeholder="rain" required="required"><br><br>
+
+        <label>Snow:</label>
+        <input type="number" name="snow" step="any" placeholder="snow" required="required"><br><br>
+
+        <label for="weather">Weather:</label>
+        <select id="weather" name="weather">
+            <option value="1">Clouds</option>
+            <option value="0">Clear</option>
+            <option value="4">Rain</option>
+            <option value="2">Drizzle</option>
+            <option value="5">Mist</option>
+            <option value="3">Haze</option>
+            <option value="10">Thunderstorm</option>
+            <option value="8">Snow</option>
+            <option value="9">Squall</option>
+            <option value="7">Smoke</option>
+        </select><br><br>
+
+        <label>Year:</label>
+        <input type="number" min="2012" max="2022" name="year" placeholder="year" required="required"><br><br>
+
+        <label>Month:</label>
+        <input type="number" min="1" max="12" name="month" placeholder="month" required="required"><br><br>
+
+        <label>Day:</label>
+        <input type="number" min="1" max="31" name="day" placeholder="day" required="required"><br><br>
+
+        <label>Hours:</label>
+        <input type="number" min="0" max="23" name="hours" placeholder="hours" required="required"><br><br>
+
+        <label>Minutes:</label>
+        <input type="number" min="0" max="59" name="minutes" placeholder="minutes" required="required"><br><br>
+
+        <label>Seconds:</label>
+        <input type="number" min="0" max="59" name="seconds" placeholder="seconds" required="required"><br><br>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large" style="height:30px;width:200px">Predict</button>
+    </form>
+
+    <br>
+
+    {% if prediction_text %}
+    <div class="prediction-box">
+        {{ prediction_text }}
+    </div>
+    {% endif %}
+
+    <br>
+    <img src="data:image/png;base64,{{url}}" alt="Prediction Chart" height="190" width="270">
+</div>
+</body>
+</html>
